@@ -367,7 +367,7 @@ kable(model_summary_cul, caption = "Model Summary Statistics")
 
 -   **Adjusted R-squared**: The adjusted R-squared is 0.0264, which is similar to the multiple R-squared, confirming limited explanatory power.
 
--   **F-statistic**: The F-statistic is 4.258 with a p-value of 0.04125, meaning the overall model is statistically significant at the 0.05 level, though only marginally.
+-   **F-statistic**: The F-statistic is 4.258 with a p-value of 0.04125, meaning the overall model is statistically significant at the 0.05 level.
 
 <br>
 
@@ -650,7 +650,7 @@ kable(model_summary_res, caption = "Model Summary Statistics")
 -   **Multiple R-squared**: The R-squared value is 0.1337, indicating that about 13.4% of the variance in percentage biomass change can be explained by years_from_baseline.
     This is a modest fit, meaning that other factors likely affect biomass change.
 
--   Adjusted R-squared: The adjusted R-squared is 0.1271, confirming that the model explains some variability, but the explanatory power remains relatively low.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.1271, confirming that the model explains some variability, but the explanatory power remains relatively low.
 
 -   **F-statistic**: The F-statistic is 20.22, with a highly significant p-value of 1.501e-05.
     This indicates that the overall model is statistically significant, meaning the years_from_baseline variable is a meaningful predictor of biomass change.

@@ -1,1 +1,3 @@
 # ff_biomass_change_regression_analysis
+
+This repository has the data and code to recreate the linear regression models initially conducted on biomass change over time in various Fish Forever Managed Access and Reserve Areas. In the first part of each section, the original regression analyses are replicated, and the results, including the regression equations, match the previous findings. Following this, I evaluate the diagnostic plots and model fit for each of the models.

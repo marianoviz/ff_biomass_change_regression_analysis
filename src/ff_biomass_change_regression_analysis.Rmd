@@ -37,6 +37,16 @@ library(ggfortify)
 ma <- read_excel(here("data", "raw","Aggregated Data.xlsx"), sheet = "MA - Biomass by year")
 reserve <- read_excel(here("data", "raw","Aggregated Data.xlsx"), sheet = "Reserve - Biomass by year")
 
+# Filter out sites with only one observation
+ma <- ma %>%
+  group_by(ma_name) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+reserve <- reserve %>%
+  group_by(ma_name) %>%
+  filter(n() > 1) %>%
+  ungroup()
 
 ```
 
@@ -58,8 +68,7 @@ The conclusions drawn from these evaluations across the different analyses are q
 
 <!-- -->
 
--   **Non-linearity and Heteroscedasticity**: The diagnostic plots consistently show evidence of non-linearity and heteroscedasticity.
-    In the residual plots, non-random patterns and increasing spread of residuals with fitted values indicate that the linear model does not fully capture the relationship between the variables, and that the variance in the residuals changes as the fitted values increase.
+-   **Non-linearity and Heteroscedasticity**: The diagnostic plots consistently show evidence of non-linearity and heteroscedasticity. In the residual plots, non-random patterns and increasing spread of residuals with fitted values indicate that the linear model does not fully capture the relationship between the variables, and that the variance in the residuals changes as the fitted values increase.
 
 <br>
 
@@ -211,30 +220,30 @@ kable(model_summary, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is -11.384, but its p-value is quite high (p = 0.723329), which indicates that it is not statistically significant.
+-   **Intercept**: The intercept is -13.43, but its p-value is quite high (p = 0.71), which indicates that it is not statistically significant.
     This suggests that the intercept does not contribute meaningfully to the model.
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 32.571, and its p-value is highly significant (p = 0.000976).
-    [This means that for every additional year from the baseline, the percentage change in biomass is expected to increase by approximately 32.57%. This effect is statistically significant at the 0.001 level.]{.underline}
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 32.98, and its p-value is highly significant (p = 0.002).
+    [This means that for every additional year from the baseline, the percentage change in biomass is expected to increase by approximately 33%. This effect is statistically significant at the 0.001 level.]{.underline}
 
 **Model Fit**:
 
--   **Residual standard error**: The residual standard error is 272.4 (deviating significantly from the fitted line), suggesting that the model is not fitting the data very well
+-   **Residual standard error**: The residual standard error is 285 (deviating significantly from the fitted line), suggesting that the model is not fitting the data very well
 
--   **Multiple R-squared**: The R-squared value is 0.08236, indicating that about 8.2% of the variance in the percentage biomass change can be explained by the years_from_baseline.
+-   **Multiple R-squared**: The R-squared value is 0.0078, indicating that about 7.8% of the variance in the percentage biomass change can be explained by the years_from_baseline.
     This is relatively low, suggesting that the model does not explain a large portion of the variability in the biomass change.
 
--   **Adjusted R-squared**: The adjusted R-squared is 0.07513, which is similar to the multiple R-squared and accounts for the number of predictors in the model.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.07, which is similar to the multiple R-squared and accounts for the number of predictors in the model.
     This confirms that the model’s explanatory power is quite limited.
 
--   **F-statistic**: The F-statistic is 11.4 with a p-value of 0.0009759, which is highly significant.
+-   **F-statistic**: The F-statistic is 9.89 with a p-value of 0.002, which is highly significant.
     This indicates that the overall model is statistically significant, meaning that at least one of the coefficients (`years_from_baseline`) is significantly different from zero.
 
 <br>
 
 [**Summary**]{.underline}:
 
--   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change from baseline, with a 32.57% increase for every additional year.
+-   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change from baseline, with a 33% increase for every additional year.
 
 -   However, **the overall model fit is relatively weak**, as indicated by the low R-squared values.
     This suggests that while `years_from_baseline` is a significant predictor, there are other factors affecting biomass change that are not included in the model.
@@ -354,26 +363,26 @@ kable(model_summary_cul, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is 6.258, with a p-value of 0.4806, indicating that it is not statistically significant (i.e., the intercept does not contribute meaningfully to the model).
+-   **Intercept**: The intercept is 7.43, with a p-value of 0.46, indicating that it is not statistically significant (i.e., the intercept does not contribute meaningfully to the model).
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 5.628, and the p-value is significant at the 0.05 level (p = 0.0412).
-    [This means that for every additional year from the baseline, the percentage change in biomass is expected to increase by approximately 5.63%, a smaller but still statistically significant effect]{.underline}.
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 5.39, and the p-value is not significant at the 0.05 level (p = 0.07).
+    [This means that for every additional year from the baseline, the percentage change in biomass is expected to increase by approximately 5.39%, but this effect is not statistically significant at the 0.05 level (p = 0.07)]{.underline}.
 
 **Model Fit**:
 
--   **Residual standard error**: The residual standard error is 73.72, which is relatively lower, indicating a better fit compared to the previous model.
+-   **Residual standard error**: The residual standard error is 77.35, which is relatively lower, indicating a better fit compared to the previous model.
 
--   **Multiple R-squared**: The R-squared value is 0.0345, meaning only 3.45% of the variance in biomass change is explained by years_from_baseline, suggesting a weak fit.
+-   **Multiple R-squared**: The R-squared value is 0.029, meaning only 2.9% of the variance in biomass change is explained by years_from_baseline, suggesting a weak fit.
 
--   **Adjusted R-squared**: The adjusted R-squared is 0.0264, which is similar to the multiple R-squared, confirming limited explanatory power.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.02, which is similar to the multiple R-squared, confirming limited explanatory power.
 
--   **F-statistic**: The F-statistic is 4.258 with a p-value of 0.04125, meaning the overall model is statistically significant at the 0.05 level.
+-   **F-statistic**: The F-statistic is 3.28 with a p-value of 0.07, meaning the overall model is not statistically significant at the 0.05 level.
 
 <br>
 
 [**Summary**]{.underline}:
 
--   The `years_from_baseline` variable has a **statistically significant positive effect** on biomass change, with a 5.63% increase per year.
+-   In this model, the `years_from_baseline` variable **does not have a statistically significant effect** on the percentage biomass change.
 
 -   The **overall model fit is weak**.
 
@@ -492,21 +501,21 @@ kable(model_summary_cul_phi, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is 16.377, with a p-value of 0.194, indicating that it is not statistically significant.
+-   **Intercept**: The intercept is 18.66, with a p-value of 0.17, indicating that it is not statistically significant.
     This means the intercept does not contribute meaningfully to the model.
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 4.099, with a p-value of 0.214, which is also not statistically significant.
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 3.67, with a p-value of 0.29, which is also not statistically significant.
     [This suggests that `years_from_baseline` does not have a significant effect on the percentage biomass change in this model]{.underline}.
 
 **Model Fit:**
 
--   **Residual standard error**: The residual standard error is 79.92, suggesting moderate deviations from the fitted line, but less than other models analyzed.
+-   **Residual standard error**: The residual standard error is 82.44, suggesting moderate deviations from the fitted line, but less than other models analyzed.
 
--   **Multiple R-squared**: The R-squared value is 0.01944, indicating that only about 1.94% of the variance in the percentage biomass change is explained by years_from_baseline, suggesting a very weak fit.
+-   **Multiple R-squared**: The R-squared value is 0.014, indicating that only about 1.4% of the variance in the percentage biomass change is explained by years_from_baseline, suggesting a very weak fit.
 
--   **Adjusted R-squared**: The adjusted R-squared is 0.007029, further confirming the model's weak explanatory power.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.001, further confirming the model's weak explanatory power.
 
--   **F-statistic**: The F-statistic is 1.566 with a p-value of 0.2144, indicating that the overall model is not statistically significant.
+-   **F-statistic**: The F-statistic is 1.1 with a p-value of 0.29, indicating that the overall model is not statistically significant.
     This means that neither the intercept nor years_from_baseline provides a good explanation of the biomass change.
 
 -   <br>
@@ -597,7 +606,7 @@ Additionally, the spread of residuals increases at higher fitted values, suggest
 
 -   This analysis suggests **non-linearity** and **heteroscedasticity**, as observed in the Residuals vs Fitted and Scale-Location plots.
 
--    Potential **outliers** and influential points, particularly 32, 35, and 27, could be affecting the model.
+-   Potential **outliers** and influential points, particularly 32, 35, and 27, could be affecting the model.
 
 -   **Non-normality** in the residuals is visible, which could indicate the need for data transformation or a different regression model.
 
@@ -637,29 +646,29 @@ kable(model_summary_res, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is -14.47, with a p-value of 0.809, indicating that it is not statistically significant.
+-   **Intercept**: The intercept is -17.42, with a p-value of 0.8, indicating that it is not statistically significant.
     This suggests that the intercept does not meaningfully contribute to the model.
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 81.38, and it is highly significant, with a p-value of 1.5e-05.
-    [This suggests that for each additional year from baseline, the percentage biomass change is expected to increase by 81.38%, and this effect is statistically significant]{.underline}.
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 81.96, and it is highly significant, with a p-value of 6.9e-05.
+    [This suggests that for each additional year from baseline, the percentage biomass change is expected to increase by 81.96%, and this effect is statistically significant]{.underline}.
 
 **Model Fit**:
 
--   **Residual standard error**: The residual standard error is 522.9, indicating that the actual values deviate substantially from the predicted values, suggesting a less precise model fit.
+-   **Residual standard error**: The residual standard error is 550.9, indicating that the actual values deviate substantially from the predicted values, suggesting a less precise model fit.
 
--   **Multiple R-squared**: The R-squared value is 0.1337, indicating that about 13.4% of the variance in percentage biomass change can be explained by years_from_baseline.
+-   **Multiple R-squared**: The R-squared value is 0.125, indicating that about 12.5% of the variance in percentage biomass change can be explained by years_from_baseline.
     This is a modest fit, meaning that other factors likely affect biomass change.
 
--   **Adjusted R-squared**: The adjusted R-squared is 0.1271, confirming that the model explains some variability, but the explanatory power remains relatively low.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.11, confirming that the model explains some variability, but the explanatory power remains relatively low.
 
--   **F-statistic**: The F-statistic is 20.22, with a highly significant p-value of 1.501e-05.
+-   **F-statistic**: The F-statistic is 17, with a highly significant p-value of 6.9e-05.
     This indicates that the overall model is statistically significant, meaning the years_from_baseline variable is a meaningful predictor of biomass change.
 
 <br>
 
 [**Summary**]{.underline}:
 
--   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change, with an 81.38% increase for each additional year.
+-   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change, with an 81.96% increase for each additional year.
 
 -   The **model fit is still moderate**, as indicated by the relatively low R-squared values, suggesting other factors not included in the model may be influencing biomass change.
 
@@ -779,29 +788,29 @@ kable(model_summary_res_cor, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is -3.018, with a p-value of 0.954899, indicating that it is not statistically significant.
+-   **Intercept**: The intercept is -3.65, with a p-value of 0.95, indicating that it is not statistically significant.
     This suggests that the intercept does not meaningfully contribute to the model.
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 57.099, and it is highly significant, with a p-value of 0.000674.
-    [This suggests that for each additional year from baseline, the percentage biomass change is expected to increase by 57.1%, and this effect is statistically significant]{.underline}.
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 57.22, and it is highly significant, with a p-value of 0.0019.
+    [This suggests that for each additional year from baseline, the percentage biomass change is expected to increase by 57.2%, and this effect is statistically significant]{.underline}.
 
 **Model Fit**:
 
--   **Residual standard error**: The residual standard error is 459.3, indicating that the actual values deviate substantially from the predicted values, suggesting a moderate model fit.
+-   **Residual standard error**: The residual standard error is 485.19, indicating that the actual values deviate substantially from the predicted values, suggesting a moderate model fit.
 
--   **Multiple R-squared**: The R-squared value is 0.08867, indicating that about 8.9% of the variance in percentage biomass change can be explained by years_from_baseline.
+-   **Multiple R-squared**: The R-squared value is 0.082, indicating that about 8.2% of the variance in percentage biomass change can be explained by years_from_baseline.
     This is a relatively low value, suggesting that the model only explains a small portion of the variability in biomass change.
 
--   **Adjusted R-squared:** The adjusted R-squared is 0.08138, confirming that the model’s explanatory power remains low, even when accounting for the number of predictors.
+-   **Adjusted R-squared:** The adjusted R-squared is 0.074, confirming that the model’s explanatory power remains low, even when accounting for the number of predictors.
 
--   **F-statistic**: The F-statistic is 12.16, with a significant p-value of 0.0006737.
+-   **F-statistic**: The F-statistic is 10.06, with a significant p-value of 0.0019.
     This indicates that the overall model is statistically significant, meaning the `years_from_baseline` variable is a meaningful predictor of biomass change.
 
 <br>
 
 [**Summary**]{.underline}:
 
--   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change, with a 57.1% increase for each additional year.
+-   The `years_from_baseline` variable has a **statistically significant positive effect** on the percentage biomass change, with a 57.2% increase for each additional year.
 
 -   **The model fit is weak**, as indicated by the low R-squared values, suggesting that other factors not included in the model may be influencing biomass change.
 
@@ -922,22 +931,22 @@ kable(model_summary_res_cor_phi, caption = "Model Summary Statistics")
 
 **Coefficients**:
 
--   **Intercept**: The intercept is 18.57, but its p-value is 0.81961, indicating it is not statistically significant.
+-   **Intercept**: The intercept is 22.5, but its p-value is 0.81, indicating it is not statistically significant.
     This suggests the intercept does not meaningfully contribute to the model.
 
--   `years_from_baseline`: The coefficient for `years_from_baseline` is 57.00, with a p-value of 0.00933, indicating that the effect of years from baseline is statistically significant.
-    [This means that for each additional year from baseline, the percentage biomass change is expected to increase by 57.0%.]{.underline}
+-   `years_from_baseline`: The coefficient for `years_from_baseline` is 56.27, with a p-value of 0.01, indicating that the effect of years from baseline is statistically significant.
+    [This means that for each additional year from baseline, the percentage biomass change is expected to increase by 56.27%.]{.underline}
 
 **Model Fit**:
 
--   **Residual standard error**: The residual standard error is 549.1, suggesting considerable deviation of actual data points from the predicted values, indicating moderate model fit.
+-   **Residual standard error**: The residual standard error is 576.57, suggesting considerable deviation of actual data points from the predicted values, indicating moderate model fit.
 
--   **Multiple R-squared**: The R-squared value is 0.07601, meaning that around 7.6% of the variance in percentage biomass change is explained by the years_from_baseline variable.
+-   **Multiple R-squared**: The R-squared value is 0.067, meaning that around 6.7% of the variance in percentage biomass change is explained by the years_from_baseline variable.
     This is quite low, indicating that the model does not explain much of the variability in biomass change.
 
--   **Adjusted R-squared**: The adjusted R-squared is 0.06526, which further confirms the low explanatory power of the model.
+-   **Adjusted R-squared**: The adjusted R-squared is 0.055, which further confirms the low explanatory power of the model.
 
--   **F-statistic:** The F-statistic is 7.074 with a p-value of 0.009327, indicating that the model as a whole is statistically significant, meaning that the `years_from_baseline` variable is a meaningful predictor in this model.
+-   **F-statistic:** The F-statistic is 5.67 with a p-value of 0.019, indicating that the model as a whole is statistically significant, meaning that the `years_from_baseline` variable is a meaningful predictor in this model.
 
 <br>
 
